@@ -1,0 +1,107 @@
+{
+    "name": "Schema Validation Quest",
+    "description": "A test quest that includes every possible field for validation purposes.",
+    "positivity": 0.5,
+    "groundingInReality": true,
+    "resources": [
+        { "name": "Resource A", "icon": "MoneyIcon", "barColor": "bg-red-500", "initialValue": 100 },
+        { "name": "Resource B", "icon": "TimeIcon", "barColor": "bg-blue-500", "initialValue": 100 },
+        { "name": "Resource C", "icon": "InfoIcon", "barColor": "bg-yellow-500", "initialValue": 100 }
+    ],
+    "playerColors": ["text-red-600", "text-blue-600", "text-green-600", "text-purple-600"],
+    "board": {
+        "jailPosition": 5,
+        "locations": [
+            { "name": "Start", "description": "The starting point.", "type": "START" },
+            { "name": "Property 1", "description": "A standard property.", "type": "PROPERTY", "color": "bg-indigo-500" },
+            { "name": "Community Chest 1", "description": "Draw a community chest card.", "type": "COMMUNITY_CHEST" },
+            { "name": "Tax 1", "description": "Pay your taxes.", "type": "TAX" },
+            { "name": "Utility 1", "description": "A standard utility.", "type": "UTILITY" },
+            { "name": "Jail", "description": "Just visiting.", "type": "JAIL" },
+            { "name": "Property 2", "description": "A property.", "type": "PROPERTY", "color": "bg-blue-400" },
+            { "name": "Chance 1", "description": "Draw a chance card.", "type": "CHANCE" },
+            { "name": "Property 3", "description": "A property.", "type": "PROPERTY", "color": "bg-blue-400" },
+            { "name": "Property 4", "description": "A property.", "type": "PROPERTY", "color": "bg-blue-400" },
+            { "name": "Free Parking", "description": "Rest and relax.", "type": "FREE_PARKING" },
+            { "name": "Property 5", "description": "A property.", "type": "PROPERTY", "color": "bg-pink-500" },
+            { "name": "Chance 2", "description": "Draw a card.", "type": "CHANCE" },
+            { "name": "Utility 2", "description": "A utility.", "type": "UTILITY" },
+            { "name": "Property 6", "description": "A property.", "type": "PROPERTY", "color": "bg-pink-500" },
+            { "name": "Go To Jail", "description": "Go directly to jail.", "type": "GO_TO_JAIL" },
+            { "name": "Property 7", "description": "A property.", "type": "PROPERTY", "color": "bg-green-500" },
+            { "name": "Community Chest 2", "description": "Draw a card.", "type": "COMMUNITY_CHEST" },
+            { "name": "Property 8", "description": "A property.", "type": "PROPERTY", "color": "bg-green-500" },
+            { "name": "Tax 2", "description": "Pay tax.", "type": "TAX" }
+        ]
+    },
+    "chanceCards": [
+        { "description": "This is a chance card.", "resourceChanges": { "resource a": 10, "resource b": -5, "resource c": 0 } }
+    ],
+    "communityChestCards": [
+        { "description": "This is a community chest card.", "resourceChanges": { "resource a": 0, "resource b": 10, "resource c": -5 } }
+    ],
+    "footerSections": [
+        {
+            "title": "Validation Rules",
+            "content": "This section contains rules. It can use <strong>HTML</strong>."
+        },
+        {
+            "title": "About This Quest",
+            "content": "This quest is for testing the schema."
+        }
+    ],
+    "pregeneratedScenarios": {
+        "Property 1": [
+            {
+                "id": "prop-1",
+                "title": "A Pregenerated Scenario",
+                "description": "This is a sample pregenerated scenario for a property space.",
+                "choices": [
+                    {
+                        "text": "Choice 1",
+                        "outcome": {
+                            "explanation": "You chose the first option.",
+                            "resourceChanges": { "resource a": -10, "resource b": 5, "resource c": 0 }
+                        }
+                    },
+                    {
+                        "text": "Choice 2",
+                        "outcome": {
+                            "explanation": "You chose the second option.",
+                            "resourceChanges": { "resource a": 5, "resource b": -10, "resource c": 0 }
+                        }
+                    }
+                ],
+                "sourceUrl": "https://example.com",
+                "sourceTitle": "Example Source Article",
+                "custom": false,
+                "enabled": true
+            }
+        ],
+        "Utility 1": [
+             {
+                "id": "util-1",
+                "title": "Utility Scenario",
+                "description": "This is a sample pregenerated scenario for a utility space.",
+                "choices": [
+                    {
+                        "text": "Do the thing",
+                        "outcome": {
+                            "explanation": "You did the thing.",
+                            "resourceChanges": { "resource a": 0, "resource b": 0, "resource c": -15 }
+                        }
+                    },
+                    {
+                        "text": "Don't do the thing",
+                        "outcome": {
+                            "explanation": "You didn't do the thing.",
+                            "resourceChanges": { "resource a": 0, "resource b": 0, "resource c": 5 }
+                        }
+                    }
+                ],
+                "custom": false,
+                "enabled": true
+            }
+        ]
+    }
+}

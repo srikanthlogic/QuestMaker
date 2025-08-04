@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuestCraft</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom font for a more thematic feel */
+      @import url('https://fonts.googleapis.com/css2?family=Eczar:wght@400;600;800&family=Roboto:wght@400;500;700&display=swap');
+      body {
+        font-family: 'Roboto', sans-serif;
+      }
+      h1, h2, h3, h4, .font-display {
+        font-family: 'Eczar', serif;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+      /* Custom Scrollbar Styles */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 10px;
+        border: 2px solid #f1f1f1;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #aaa;
+      }
+      /* Styles for documentation */
+      .docs-content h1, .docs-content h2, .docs-content h3, .docs-content h4 {
+        font-family: 'Eczar', serif;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #e5e7eb; /* gray-200 */
+        padding-bottom: 0.5rem;
+      }
+      .docs-content h1 { font-size: 2.25rem; }
+      .docs-content h2 { font-size: 1.875rem; }
+      .docs-content h3 { font-size: 1.5rem; }
+      .docs-content h4 { font-size: 1.25rem; }
+      .docs-content p { margin-bottom: 1rem; line-height: 1.75; }
+      .docs-content ul, .docs-content ol { margin-left: 1.5rem; margin-bottom: 1rem; list-style-position: outside; }
+      .docs-content ul { list-style-type: disc; }
+      .docs-content ol { list-style-type: decimal; }
+      .docs-content li { margin-bottom: 0.5rem; }
+      .docs-content a { color: #ea580c; /* orange-600 */ text-decoration: underline; }
+      .docs-content a:hover { color: #c2410c; /* orange-800 */ }
+      .docs-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+      .docs-content th, .docs-content td { border: 1px solid #d1d5db; padding: 0.75rem; text-align: left; }
+      .docs-content th { background-color: #f3f4f6; font-weight: 600; }
+      .docs-content strong, .docs-content b { font-weight: 700; }
+      .docs-content em, .docs-content i { font-style: italic; }
+
+      code {
+        background-color: #fef3c7; /* yellow-100 */
+        color: #92400e; /* amber-800 */
+        padding: 0.125rem 0.25rem;
+        border-radius: 0.25rem;
+        font-family: monospace;
+        font-size: 0.9em;
+      }
+      pre {
+        background-color: #f3f4f6; /* gray-100 */
+        border: 1px solid #d1d5db; /* gray-300 */
+        border-radius: 0.5rem;
+        padding: 1rem;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-size: 0.875rem;
+        overflow-x: auto;
+      }
+      pre code {
+        background-color: transparent;
+        color: inherit;
+        padding: 0;
+        border-radius: 0;
+        font-size: 1em;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.1.1/",
+    "react/": "https://esm.sh/react@^19.1.1/",
+    "react": "https://esm.sh/react@^19.1.1",
+    "@google/genai": "https://esm.sh/@google/genai@^1.12.0",
+    "marked": "https://esm.sh/marked@^12.0.2",
+    "dompurify": "https://esm.sh/dompurify@^3.1.2"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

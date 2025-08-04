@@ -1,0 +1,72 @@
+{
+    "name": "Digital Payments Quest",
+    "description": "an interactive journey exploring the convenience and pitfalls of India's digital payment ecosystem.",
+    "groundingInReality": true,
+    "resources": [
+        { "name": "Money", "icon": "MoneyIcon", "barColor": "bg-green-500", "initialValue": 100 },
+        { "name": "Security", "icon": "InfoIcon", "barColor": "bg-purple-500", "initialValue": 50 },
+        { "name": "Time", "icon": "TimeIcon", "barColor": "bg-blue-500", "initialValue": 100 }
+    ],
+    "playerColors": ["text-orange-600", "text-blue-600", "text-green-600", "text-purple-600"],
+    "board": {
+        "jailPosition": 5,
+        "locations": [
+            { "name": "Start", "description": "Collect interest as you begin a new financial cycle.", "type": "START" },
+            { "name": "Kirana Store QR", "description": "Pay for groceries using a QR code.", "type": "PROPERTY", "color": "bg-yellow-600" },
+            { "name": "Chance", "description": "Draw a chance card.", "type": "CHANCE" },
+            { "name": "Phishing Scam Link", "description": "You receive a deceptive SMS with a malicious link.", "type": "PROPERTY", "color": "bg-yellow-600" },
+            { "name": "Platform Fee", "description": "Pay a convenience fee for a digital service.", "type": "TAX" },
+            { "name": "Account Frozen", "description": "Your account is temporarily frozen due to a suspicious transaction.", "type": "JAIL" },
+            { "name": "Online Shopping", "description": "Making a purchase on an e-commerce site.", "type": "PROPERTY", "color": "bg-blue-400" },
+            { "name": "Auto-Pay Subscription", "description": "A recurring payment is automatically deducted.", "type": "UTILITY" },
+            { "name": "Failed Transaction", "description": "Money debited, but the transaction failed. Now you have to wait for a refund.", "type": "PROPERTY", "color": "bg-blue-400" },
+            { "name": "Chance", "description": "Draw a chance card.", "type": "CHANCE" },
+            { "name": "Server Maintenance", "description": "A moment of peace, the payment gateway is temporarily down.", "type": "FREE_PARKING" },
+            { "name": "Wrong UPI ID Transfer", "description": "You accidentally sent money to the wrong person.", "type": "PROPERTY", "color": "bg-pink-500" },
+            { "name": "Cashback Offer", "description": "You get a cashback reward for a transaction.", "type": "UTILITY" },
+            { "name": "Customer Care Scam", "description": "You call a fake customer care number you found online.", "type": "PROPERTY", "color": "bg-pink-500" },
+            { "name": "Chance", "description": "Draw a chance card.", "type": "CHANCE" },
+            { "name": "Go to Freeze", "description": "A major security issue forces your bank to freeze your account.", "type": "GO_TO_JAIL" },
+            { "name": "SIM Swap Fraud", "description": "Scammers take control of your phone number to access your accounts.", "type": "PROPERTY", "color": "bg-green-500" },
+            { "name": "Data Privacy Update", "description": "A payment app updates its privacy policy, affecting your data.", "type": "PROPERTY", "color": "bg-green-500" },
+            { "name": "Transaction Dispute Fee", "description": "Pay a fee to file a formal complaint for a failed transaction.", "type": "TAX" },
+            { "name": "Credit Score Hit", "description": "A payment issue negatively impacts your credit score.", "type": "PROPERTY", "color": "bg-green-500" }
+        ]
+    },
+    "chanceCards": [
+      { "description": "You receive ₹20 cashback on a bill payment. Gain Money.", "resourceChanges": { "money": 20, "security": 0, "time": 0 } },
+      { "description": "Your bank's server is down for maintenance during a crucial payment. Lose Time.", "resourceChanges": { "money": 0, "security": 0, "time": -10 } },
+      { "description": "You spot a phishing email and report it, improving your digital awareness. Gain Security.", "resourceChanges": { "money": 0, "security": 10, "time": 0 } },
+      { "description": "A friend instantly sends you money for lunch. Gain Time and Money.", "resourceChanges": { "money": 15, "security": 0, "time": 5 } },
+      { "description": "Your payment app forces a mandatory, time-consuming KYC update. Lose Time.", "resourceChanges": { "money": 0, "security": 0, "time": -15 } },
+      { "description": "You get a notification about a suspicious login attempt, which you blocked. Gain Security but lose Time changing passwords.", "resourceChanges": { "money": 0, "security": 5, "time": -5 } }
+    ],
+    "footerSections": [
+      {
+        "title": "Rules of the Game",
+        "content": "<ul><li class='mb-2'><strong>Goal:</strong> Be the last player with resources. You are eliminated if your <strong>Money</strong> or <strong>Security</strong> drops to zero.</li><li class='mb-2'><strong>Your Turn:</strong> Click 'Roll Dice' to move your token.</li><li class='mb-2'><strong>Spaces:</strong> Landing on a space can trigger a Scenario, a Chance card, a Fee, or get your account Frozen.</li><li class='mb-2'><strong>Winning:</strong> The last player who isn't bankrupt wins the game and masters the Digital Payments Quest.</li></ul>"
+      },
+      {
+        "title": "Tips to Play",
+        "content": "<ul><li class='mb-2'><strong>Never Share Your PIN:</strong> Your UPI PIN is secret. No one from a bank, app, or government agency will ever ask for it.</li><li class='mb-2'><strong>Verify Before Sending:</strong> Double-check the recipient's name before approving any UPI transaction. It's easy to make a typo.</li><li class='mb-2'><strong>Beware 'Request Money' Scams:</strong> Scammers send payment requests disguised as refunds or lottery wins. You do NOT need a PIN to *receive* money.</li><li class='mb-2'><strong>Security is Wealth:</strong> A high Security score can protect you from disastrous events. Don't neglect it for small monetary gains.</li></ul>"
+      },
+      {
+        "title": "About Digital Payments Quest",
+        "content": "Digital Payments Quest is an interactive board game designed to raise awareness about the Unified Payments Interface (UPI) and the broader digital payments ecosystem in India. It explores common pitfalls like online scams, transaction failures, and privacy concerns, while also highlighting the conveniences. The goal is to foster safer digital transaction habits."
+      }
+    ],
+    "pregeneratedScenarios": {
+        "Phishing Scam Link": [
+            { "id": "ps-1", "title": "Fake Electricity Bill", "description": "You receive an SMS warning that your electricity bill is overdue and your power will be cut. It includes a link to a payment website.", "choices": [ { "text": "Click the link and pay immediately.", "outcome": { "explanation": "The website was a fake! You entered your UPI details and scammers drained your account. A devastating loss of money and security.", "resourceChanges": { "money": -30, "security": -20, "time": -10 } } }, { "text": "Ignore the SMS and check your bill on the official app.", "outcome": { "explanation": "You wisely verify through the official channel and discover your bill is already paid. You avoided a scam, boosting your security awareness.", "resourceChanges": { "money": 0, "security": 10, "time": -2 } } } ], "sourceUrl": "https://www.thehindubusinessline.com/info-tech/how-upi-frauds-happen-and-how-to-stay-safe/article65668616.ece", "sourceTitle": "How UPI frauds happen and how to stay safe", "custom": false, "enabled": true }
+        ],
+        "Customer Care Scam": [
+            { "id": "ccs-1", "title": "The Helpful Impostor", "description": "A recent online purchase failed, but money was debited. You search for the company's customer care number online and call the first result.", "choices": [ { "text": "Follow the 'agent's' instructions to install a 'verification' app.", "outcome": { "explanation": "The app was screen-sharing malware. The 'agent' saw your banking details and PIN, leading to a major financial fraud. Your security is shattered.", "resourceChanges": { "money": -40, "security": -30, "time": -15 } } }, { "text": "Become suspicious and find the official number on their website.", "outcome": { "explanation": "You realize the number was fake and hang up. You lost some time, but your caution saved you from a major scam, significantly boosting your security.", "resourceChanges": { "money": 0, "security": 15, "time": -8 } } } ], "sourceUrl": "https://indianexpress.com/article/cities/pune/to-dupe-users-fraudsters-now-pose-as-customer-care-support-for-banks-e-commerce-sites-8139535/", "sourceTitle": "To dupe users, fraudsters now pose as customer care support", "custom": false, "enabled": true }
+        ],
+        "Wrong UPI ID Transfer": [
+            { "id": "wut-1", "title": "Typo Trouble", "description": "You are urgently sending a large sum to a friend, but you make a single-character typo in their UPI ID. The payment goes through instantly to a stranger.", "choices": [ { "text": "Try to contact your bank and file a complaint immediately.", "outcome": { "explanation": "You spend a lot of time in the formal complaint process. There's a small chance of recovery, but the time and stress are immense.", "resourceChanges": { "money": -25, "security": -5, "time": -20 } } }, { "text": "Call the stranger, explain the mistake, and ask them to return the money.", "outcome": { "explanation": "Amazingly, the stranger is honest and returns the money! You were very lucky. Your security knowledge increases, realizing the danger.", "resourceChanges": { "money": 0, "security": 10, "time": -5 } } } ], "sourceUrl": "https://www.livemint.com/money/personal-finance/what-to-do-if-you-have-transferred-money-to-a-wrong-upi-id-11657800994539.html", "sourceTitle": "What to do if you have transferred money to a wrong UPI ID", "custom": false, "enabled": true }
+        ],
+        "Failed Transaction": [
+            { "id": "ft-1", "title": "Money in Limbo", "description": "You paid for movie tickets online. Your account was debited, but the app showed 'Transaction Failed'. The money is gone, and you have no tickets.", "choices": [ { "text": "Wait for the automatic refund, which can take 5-7 business days.", "outcome": { "explanation": "The money is stuck in the system. You eventually get it back, but it was unavailable for a week, causing inconvenience and wasting your time.", "resourceChanges": { "money": 0, "security": -2, "time": -10 } } }, { "text": "Actively follow up with customer support via email and social media.", "outcome": { "explanation": "You spend significant time and effort to get the refund expedited. It works, but it was a frustrating experience that erodes your trust in the system.", "resourceChanges": { "money": 0, "security": -5, "time": -15 } } } ], "sourceUrl": "https://timesofindia.indiatimes.com/business/india-business/upi-failed-transactions-what-to-do-when-money-gets-stuck/articleshow/88836511.cms", "sourceTitle": "UPI failed transactions: What to do when money gets stuck", "custom": false, "enabled": true }
+        ]
+    }
+}

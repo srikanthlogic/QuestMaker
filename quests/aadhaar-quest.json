@@ -1,0 +1,65 @@
+{
+    "name": "Aadhaar Quest",
+    "description": "an interactive journey to understand the challenges and opportunities in India's identity ecosystem.",
+    "groundingInReality": true,
+    "resources": [
+        { "name": "Money", "icon": "MoneyIcon", "barColor": "bg-green-500", "initialValue": 100 },
+        { "name": "Information", "icon": "InfoIcon", "barColor": "bg-purple-500", "initialValue": 50 },
+        { "name": "Time", "icon": "TimeIcon", "barColor": "bg-blue-500", "initialValue": 100 }
+    ],
+    "playerColors": ["text-orange-600", "text-blue-600", "text-green-600", "text-purple-600"],
+    "board": {
+        "jailPosition": 5,
+        "locations": [
+            { "name": "Start", "description": "Receive government benefits and start your journey.", "type": "START" },
+            { "name": "Aadhaar Center", "description": "Update your demographic information.", "type": "PROPERTY", "color": "bg-yellow-600" },
+            { "name": "Chance", "description": "Draw a chance card.", "type": "CHANCE" },
+            { "name": "Bank Branch", "description": "Link your Aadhaar to your bank account.", "type": "PROPERTY", "color": "bg-yellow-600" },
+            { "name": "Subsidy Tax", "description": "Pay taxes on subsidized goods.", "type": "TAX" },
+            { "name": "Authentication Lock", "description": "Too many failed biometric attempts. Your Aadhaar is locked.", "type": "JAIL" },
+            { "name": "Mobile SIM Store", "description": "Get a new SIM card using e-KYC.", "type": "PROPERTY", "color": "bg-blue-400" },
+            { "name": "Ration Shop", "description": "Use Aadhaar to get subsidized food grains.", "type": "UTILITY" },
+            { "name": "Cyber Cafe", "description": "Pay to get your Aadhaar card printed.", "type": "PROPERTY", "color": "bg-blue-400" },
+            { "name": "Chance", "description": "Draw a chance card.", "type": "CHANCE" },
+            { "name": "Free Time", "description": "A moment of peace, no Aadhaar-related tasks today.", "type": "FREE_PARKING" },
+            { "name": "Data Breach News", "description": "News reports a potential leak of Aadhaar data from a government server.", "type": "PROPERTY", "color": "bg-pink-500" },
+            { "name": "Scholarship Office", "description": "Apply for a student scholarship using your Aadhaar.", "type": "UTILITY" },
+            { "name": "Privacy Concern", "description": "Activists raise concerns about government surveillance.", "type": "PROPERTY", "color": "bg-pink-500" },
+            { "name": "Chance", "description": "Draw a chance card.", "type": "CHANCE" },
+            { "name": "Go to Lock", "description": "A major security alert prompts a mandatory authentication lock.", "type": "GO_TO_JAIL" },
+            { "name": "UIDAI Helpdesk", "description": "Try to resolve an issue with your Aadhaar details.", "type": "PROPERTY", "color": "bg-green-500" },
+            { "name": "Biometric Mismatch", "description": "Your fingerprint doesn't match the stored data.", "type": "PROPERTY", "color": "bg-green-500" },
+            { "name": "Service Fee", "description": "Pay a fee for Aadhaar-related services.", "type": "TAX" },
+            { "name": "Mandatory Linking", "description": "A new government rule requires linking Aadhaar to another service.", "type": "PROPERTY", "color": "bg-green-500" }
+        ]
+    },
+    "chanceCards": [
+        { "description": "You receive a direct benefit transfer of ₹20. Gain Money.", "resourceChanges": { "money": 20, "information": 0, "time": 0 } },
+        { "description": "The Aadhaar server is down for maintenance. Lose Time.", "resourceChanges": { "money": 0, "information": 0, "time": -10 } },
+        { "description": "You successfully update your address online, saving a trip. Gain Time and Information.", "resourceChanges": { "money": 0, "information": 5, "time": 10 } },
+        { "description": "A family member uses your Aadhaar without permission. Lose Information.", "resourceChanges": { "money": 0, "information": -10, "time": 0 } },
+        { "description": "You spend hours in a queue to fix a name-spelling error. Lose Time.", "resourceChanges": { "money": 0, "information": 0, "time": -15 } }
+    ],
+    "footerSections": [
+        {
+            "title": "Rules of the Game",
+            "content": "<ul><li class='mb-2'><strong>Goal:</strong> Be the last player who is not bankrupt. You are eliminated if your <strong>Money</strong> or <strong>Information</strong> score drops to zero.</li><li class='mb-2'><strong>Your Turn:</strong> Click 'Roll Dice' to move your token.</li><li class='mb-2'><strong>Spaces:</strong> Landing on a space can trigger a Scenario, a Chance card, a Fee, or get your Aadhaar locked.</li><li class='mb-2'><strong>Winning:</strong> The last player with resources wins the game and successfully navigates the Aadhaar ecosystem.</li></ul>"
+        },
+        {
+            "title": "Tips to Play",
+            "content": "<ul><li class='mb-2'><strong>Protect Your Information:</strong> Information is as valuable as Money. Low Information makes you vulnerable to scams and data loss.</li><li class='mb-2'><strong>Time is a Resource:</strong> Bureaucratic hurdles can be a significant drain. Sometimes it's better to spend a little money to save a lot of time.</li><li class='mb-2'><strong>Verify Everything:</strong> Don't trust unsolicited calls or messages about your Aadhaar. Always go to official sources (UIDAI website, official centers).</li><li class='mb-2'><strong>Biometrics are Unpredictable:</strong> Dirty or worn fingers can cause biometric authentication to fail. This is a real-world problem!</li></ul>"
+        },
+        {
+            "title": "About Aadhaar Quest",
+            "content": "Aadhaar Quest is an interactive board game designed to raise awareness about India's massive biometric identity system, Aadhaar. It explores the real-world challenges citizens face, from data privacy concerns and security breaches to the bureaucratic hurdles of accessing essential services. The goal is to foster a critical understanding of the system's impact on daily life."
+        }
+    ],
+    "pregeneratedScenarios": {
+        "Bank Branch": [
+            { "id": "bb-1", "title": "Account Opening", "description": "You are trying to open a new bank account, and the official insists on Aadhaar e-KYC for instant activation, even though other identity documents are legally valid.", "choices": [ { "text": "Agree to use Aadhaar e-KYC for speed.", "outcome": { "explanation": "Your account is opened in minutes, saving you a lot of time. However, your biometric data and personal information are now linked, slightly reducing your information security.", "resourceChanges": { "money": 0, "information": -5, "time": 15 } } }, { "text": "Insist on using your voter ID and passport.", "outcome": { "explanation": "The official reluctantly agrees, but the manual process takes days. You've protected your data's privacy but lost significant time.", "resourceChanges": { "money": 0, "information": 5, "time": -15 } } } ], "custom": false, "enabled": true }
+        ],
+        "Data Breach News": [
+            { "id": "dbn-1", "title": "Leaked Data for Sale", "description": "You read a news report that a security researcher found a government database with millions of Aadhaar numbers and personal details unsecured and accessible online.", "choices": [ { "text": "Panic and spend time trying to lock your biometrics.", "outcome": { "explanation": "You spend a lot of time navigating the confusing UIDAI website to lock your biometrics. It offers some peace of mind but doesn't change the fact that your data is already out there.", "resourceChanges": { "money": 0, "information": -10, "time": -10 } } }, { "text": "Assume your data is already compromised and do nothing.", "outcome": { "explanation": "You grimly accept the reality of data leaks in the digital age. You save time but live with the knowledge that your information is vulnerable.", "resourceChanges": { "money": 0, "information": -5, "time": 0 } } } ], "sourceUrl": "https://techcrunch.com/2019/03/22/india-government-database-leak-aadhaar/", "sourceTitle": "An Indian government database was leaking sensitive Aadhaar information", "custom": false, "enabled": true }
+        ]
+    }
+}
