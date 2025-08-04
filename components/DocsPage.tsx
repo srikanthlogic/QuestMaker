@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { ArrowLeftIcon, BookOpenIcon, LoadingSpinner } from './Icons';
+import { asset, getAppPath } from '../services/pathService';
 
 const docFiles = [
     { title: 'Overview', file: 'README.md' },
@@ -20,13 +21,14 @@ export const DocsPage: React.FC<DocsPageProps> = ({ currentFile, onNavigate }) =
     const [htmlContent, setHtmlContent] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const fetchDoc = async () => {
             setIsLoading(true);
             setError(null);
             try {
-                const response = await fetch(`/docs/${currentFile}`);
+                const response = await fetch(asset(`/docs/${currentFile}`));
                 if (!response.ok) {
                     throw new Error(`Could not load ${currentFile}. Please check the file path.`);
                 }
@@ -44,6 +46,37 @@ export const DocsPage: React.FC<DocsPageProps> = ({ currentFile, onNavigate }) =
 
         fetchDoc();
     }, [currentFile]);
+
+    // Effect to handle clicks on links within the rendered markdown
+    useEffect(() => {
+        const contentElement = contentRef.current;
+        if (!contentElement) return;
+
+        const handleClick = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            // Find the closest ancestor `<a>` tag
+            const link = target.closest('a');
+
+            // Check if a link was clicked and it has an href
+            if (link && link.href) {
+                const linkUrl = new URL(link.href);
+
+                // Check if it's an internal link (same domain)
+                if (linkUrl.origin === window.location.origin) {
+                    e.preventDefault();
+                    const appPath = getAppPath(linkUrl.pathname);
+                    onNavigate(appPath);
+                }
+                // External links will be handled by the browser's default behavior
+            }
+        };
+
+        contentElement.addEventListener('click', handleClick);
+
+        return () => {
+            contentElement.removeEventListener('click', handleClick);
+        };
+    }, [htmlContent, onNavigate]); // Rerun if content changes to re-attach listener
     
     const handleLinkClick = (e: React.MouseEvent, path: string) => {
         e.preventDefault();
@@ -65,7 +98,7 @@ export const DocsPage: React.FC<DocsPageProps> = ({ currentFile, onNavigate }) =
                         {docFiles.map(doc => (
                             <li key={doc.file}>
                                 <a
-                                    href={`/docs/${doc.file}`}
+                                    href={asset(`/docs/${doc.file}`)}
                                     onClick={e => handleLinkClick(e, `/docs/${doc.file}`)}
                                     className={`block font-semibold p-2 rounded-md transition-colors text-sm ${
                                         currentFile === doc.file 
@@ -81,7 +114,7 @@ export const DocsPage: React.FC<DocsPageProps> = ({ currentFile, onNavigate }) =
                 </nav>
                 <div className="mt-8 pt-4 border-t border-gray-200">
                      <a
-                        href="/"
+                        href={asset('/')}
                         onClick={e => handleLinkClick(e, `/`)}
                         className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 font-semibold"
                     >
@@ -104,7 +137,7 @@ export const DocsPage: React.FC<DocsPageProps> = ({ currentFile, onNavigate }) =
                             <p>{error}</p>
                          </div>
                     ) : (
-                        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+                        <div ref={contentRef} dangerouslySetInnerHTML={{ __html: htmlContent }} />
                     )}
                 </article>
             </main>
