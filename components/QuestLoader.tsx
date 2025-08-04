@@ -141,7 +141,7 @@ export const QuestLoader: React.FC<QuestLoaderProps> = ({ onQuestLoaded, onLaunc
                 <div className="col-span-1 md:col-span-2 mt-8 pt-6 border-t border-gray-200">
                     <h2 className="text-2xl font-bold font-display text-gray-700 text-center mb-4">Documentation</h2>
                     <div className="flex justify-center flex-wrap gap-x-6 gap-y-2">
-                        <a href={asset("/docs/README.md")} onClick={e => handleDocLinkClick(e, '/docs/README.md')} className="font-semibold text-orange-600 hover:underline">Overview</a>
+                        <a href={asset("/README.md")} onClick={e => handleDocLinkClick(e, '/README.md')} className="font-semibold text-orange-600 hover:underline">Overview</a>
                         <a href={asset("/docs/QUEST-MAKER.md")} onClick={e => handleDocLinkClick(e, '/docs/QUEST-MAKER.md')} className="font-semibold text-orange-600 hover:underline">Quest Maker Guide</a>
                         <a href={asset("/docs/quest-schema.md")} onClick={e => handleDocLinkClick(e, '/docs/quest-schema.md')} className="font-semibold text-orange-600 hover:underline">Quest Schema</a>
                         <a href={asset("/docs/DEVELOP.md")} onClick={e => handleDocLinkClick(e, '/docs/DEVELOP.md')} className="font-semibold text-orange-600 hover:underline">Developer Guide</a>

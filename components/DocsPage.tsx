@@ -5,11 +5,15 @@ import { ArrowLeftIcon, BookOpenIcon, LoadingSpinner } from './Icons';
 import { asset, getAppPath } from '../services/pathService';
 
 const docFiles = [
-    { title: 'Overview', file: 'README.md' },
+    // Start with the in-repo Introduction page as the primary landing.
+    { title: 'Introduction', file: 'INTRODUCTION.md' },
+    { title: 'Roadmap', file: 'ROADMAP.md' },
     { title: 'Design & Architecture', file: 'DESIGN.md' },
     { title: 'Quest Maker Guide', file: 'QUEST-MAKER.md' },
     { title: 'Quest Schema', file: 'quest-schema.md' },
     { title: 'Developer Guide', file: 'DEVELOP.md' },
+    // Optional docs index (kept for completeness)
+    { title: 'Docs Index', file: 'README.md' },
 ];
 
 interface DocsPageProps {
@@ -28,12 +32,13 @@ export const DocsPage: React.FC<DocsPageProps> = ({ currentFile, onNavigate }) =
             setIsLoading(true);
             setError(null);
             try {
+                // No special-casing: render markdown files directly from /docs/.
+
                 const response = await fetch(asset(`/docs/${currentFile}`));
                 if (!response.ok) {
                     throw new Error(`Could not load ${currentFile}. Please check the file path.`);
                 }
                 const markdown = await response.text();
-                // marked.parse can be awaited if using async extensions, but it's synchronous by default
                 const rawHtml = await Promise.resolve(marked.parse(markdown));
                 setHtmlContent(DOMPurify.sanitize(rawHtml));
             } catch (err: any) {

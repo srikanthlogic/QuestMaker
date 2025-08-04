@@ -1,6 +1,6 @@
 # QuestCraft Developer Guide
 
-Welcome, developer! This guide provides instructions for setting up, running, and contributing to the QuestCraft engine.
+Welcome, developer! This guide provides instructions for setting up, running, testing, and contributing to the QuestCraft engine.
 
 ## Project Overview
 
@@ -8,95 +8,116 @@ QuestCraft is a web-based board game engine built with modern frontend technolog
 
 ### Core Technologies
 
--   **Framework:** [React 19](https://react.dev/) (using Hooks)
--   **Language:** [TypeScript](https://www.typescriptlang.org/)
--   **Styling:** [Tailwind CSS](https://tailwindcss.com/) (loaded via CDN)
--   **AI Integration:** [Google Gemini API](https://ai.google.dev/) via the `@google/genai` SDK.
--   **Module System:** ES6 Modules with an `importmap` in `index.html`. This allows us to use packages directly from a CDN (`esm.sh`) without a local `node_modules` folder or a build step like Webpack/Vite.
+-   Framework: React 19 (Hooks)
+-   Language: TypeScript
+-   Styling: Tailwind CSS
+-   AI Integration: Google Gemini API via `@google/genai`
+-   Tooling: Vite (dev/build/preview)
+-   Testing: Jest + Testing Library + jsdom
+-   Module Resolution: Vite aliases (`@` -> project root)
 
-## Getting Started
+## Getting Started (Local Development)
 
-Because this project uses an `importmap` and loads all dependencies from a CDN, there is **no `npm install` step required**.
+1. Clone and install:
+   ```bash
+   git clone https://github.com/your-repo/questcraft.git
+   cd questcraft
+   npm install
+   ```
 
-1.  **Clone the Repository:**
-    ```bash
-    git clone https://github.com/your-repo/questcraft.git
-    cd questcraft
-    ```
+2. Environment variables:
+   - The app can read the Gemini API key at runtime from the browser (preferred for users) or from a local `.env` file during development.
+   - Create `.env` in the repo root:
+     ```
+     GEMINI_API_KEY=your-gemini-key
+     ```
+     Vite injects it as `process.env.GEMINI_API_KEY` (and we alias it to `process.env.API_KEY`) via [`vite.config.ts:define()`](vite.config.ts:7).
 
-2.  **Set Up Environment Variables:**
-    The application requires a Google Gemini API key to function. You must provide this key as an environment variable.
-    - Create a mechanism to serve the `index.html` file while setting the `API_KEY` environment variable. The application code `process.env.API_KEY` will expect this variable to be available in its execution context.
-    - **Note:** The `API_KEY` is a secret and should not be committed to version control.
+   - At runtime, users can also provide a key via the in-app Settings screen. It is stored in `sessionStorage` under `questcraft_gemini_api_key` by [`services/apiKeyService.ts.getApiKey()`](services/apiKeyService.ts:24).
 
-3.  **Run the Application:**
-    You can run the application by serving `index.html` from a local web server. A simple way to do this is with Python:
-    ```bash
-    # For Python 3
-    python -m http.server
-    ```
-    Then, open your browser and navigate to `http://localhost:8000`. You will need to ensure your `API_KEY` is properly injected into the environment where the JavaScript runs.
+3. Run the dev server:
+   ```bash
+   npm run dev
+   ```
+   Open the URL printed by Vite (typically http://localhost:5173). For AI features, either set `.env` as above or paste the key in Settings.
+
+4. Build and preview:
+   ```bash
+   npm run build
+   npm run preview
+   ```
+
+## Scripts
+
+- `npm run dev` — start Vite dev server
+- `npm run build` — production build
+- `npm run preview` — preview the production build
+- `npm run test` — run Jest tests
+- `npm run test:watch` — watch mode
+- `npm run test:coverage` — coverage report
+- `npm run ci:test` — CI-friendly test command
+
+## Testing
+
+- Test runner: Jest (jsdom environment)
+- Libraries: @testing-library/react, @testing-library/user-event, jest-axe for a11y checks
+- Configuration:
+  - Jest config: [`jest.config.ts`](jest.config.ts)
+  - Global setup: [`jest.setup.ts`](jest.setup.ts)
+  - A11y helpers: [`tests/setup/a11y.ts`](tests/setup/a11y.ts)
+- Run tests:
+  ```bash
+  npm test
+  npm run test:watch
+  npm run test:coverage
+  ```
+
+## Architecture Notes
+
+- Central state and game loop: [`App.tsx`](App.tsx)
+- Service to call Gemini and manage prompts/schemas: [`services/geminiService.ts`](services/geminiService.ts)
+- API key persistence for the session: [`services/apiKeyService.ts`](services/apiKeyService.ts)
+- Types shared across the app: [`types.ts`](types.ts)
+- Prompt templates: `/prompts/*.txt`
+
+Prompts use `{{placeholder}}` syntax and are fetched at runtime. See the functions in [`services/geminiService.ts.generateScenario()`](services/geminiService.ts:118) and [`services/geminiService.ts.generateQuestOutline()`](services/geminiService.ts:197) for how templates and response schemas are used.
 
 ## Project Structure
 
 ```
 /
-├── index.html              # Main entry point, contains the importmap and root div.
-├── index.tsx               # Renders the main React App component.
-├── App.tsx                 # Root component, manages game state and views.
-├── metadata.json           # App metadata.
-├── README.md               # Points to the main documentation.
-|
-├── components/             # Reusable React components.
-│   ├── GameBoard.tsx
-│   ├── PlayerDashboard.tsx
-│   ├── ScenarioCard.tsx
-│   └── ...
-|
-├── services/               # Modules for external services (e.g., Gemini API).
-│   └── geminiService.ts
-|
-├── prompts/                # Text files for AI prompts.
-│   ├── scenario-prompt.txt
-│   └── quest-outline-prompt.txt
-|
-├── quests/                 # Default quest.json configuration files.
-│   ├── aadhaar-quest.json
-│   └── ...
-|
-├── docs/                   # All project documentation.
-│   ├── README.md           # Main project overview.
-│   ├── DEVELOP.md          # This guide for developers.
-│   ├── QUEST-MAKER.md      # Guide for creating quests.
-│   └── quest-schema.md     # Schema for quest.json files.
-|
-└── types.ts                # Core TypeScript type definitions.
-└── constants.ts            # Game-wide constants (e.g., GamePhaseEnum).
+├── index.html
+├── index.tsx
+├── App.tsx
+├── metadata.json
+├── components/
+├── services/
+├── prompts/
+├── quests/
+├── docs/
+├── types.ts
+├── constants.ts
+├── vite.config.ts
+└── package.json
 ```
 
-### Key Components & Logic
+## Security & Keys
 
--   **`App.tsx`:** The "brain" of the application. It's a state machine that controls the current view (`loader`, `setup`, `game`) and the current game phase (`START`, `ROLLING`, `SCENARIO_CHOICE`, etc.). All top-level game state (players, positions, etc.) is managed here.
--   **`services/geminiService.ts`:** This file contains all the logic for interacting with the Google Gemini API. It has functions for generating dynamic scenarios and for generating entire quest outlines in the Quest Maker. Note the use of `responseSchema` to enforce structured JSON output from the model.
--   **`types.ts`:** The single source of truth for all data structures used in the game, such as `Player`, `QuestConfig`, and `Scenario`.
--   **`quests/*.json`:** These files are the heart of each game's content. The app fetches them to initialize a new game session.
-
-### AI Prompts
-
-The prompts sent to the Google Gemini API are stored as plain text files in the `/prompts` directory. This makes them easy to read and modify without digging into the TypeScript code.
-
--   `scenario-prompt.txt`: The template for generating an in-game scenario.
--   `quest-outline-prompt.txt`: The template for generating a new quest outline in the Quest Maker.
-
-These files use a simple `{{placeholder}}` syntax. The `geminiService.ts` fetches these files, replaces the placeholders with dynamic game data (like player type or quest name), and then sends the completed prompt to the AI. Modifying these prompts is the best way to change the tone, style, and structure of the AI-generated content.
+- User-provided keys are stored in `sessionStorage` only and cleared when the tab closes. They are never sent to your servers.
+- During local development, you may set `GEMINI_API_KEY` in `.env`. Vite injects it into the client bundle at build/dev time using `define` in [`vite.config.ts`](vite.config.ts:7).
+- The key lookup order in code is: `sessionStorage` first, then `process.env.API_KEY` as a fallback. See [`services/apiKeyService.ts.getApiKey()`](services/apiKeyService.ts:24).
 
 ## Contribution Guidelines
 
 We welcome contributions! Please follow these steps:
 
-1.  **Fork the repository.**
-2.  **Create a new branch** for your feature or bug fix: `git checkout -b feature/my-new-feature` or `bugfix/issue-name`.
-3.  **Make your changes.** Ensure your code is clean, well-commented, and follows the existing style.
-4.  **Test your changes** thoroughly by playing through the game.
-5.  **Commit your changes** with a clear and descriptive commit message.
-6.  **Push to your fork** and **submit a pull request** to the main repository.
+1.  Fork the repository.
+2.  Create a feature branch: `git checkout -b feature/short-description`.
+3.  Make your changes with tests where appropriate.
+4.  Run the test suite locally and ensure coverage is reasonable.
+5.  Commit with a clear message and push your branch.
+6.  Open a Pull Request. Describe the change, reasoning, and any UI or API impacts.
+
+For quest authors, see the user docs:
+- Quest Maker: [`docs/QUEST-MAKER.md`](docs/QUEST-MAKER.md)
+- Quest Schema: [`docs/quest-schema.md`](docs/quest-schema.md)
