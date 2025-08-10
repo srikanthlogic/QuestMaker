@@ -41,6 +41,8 @@ jobs:
         run: npm run build
         env:
           GITHUB_PAGES: true
+      - name: Copy locales to dist
+        run: cp -r locales dist/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
