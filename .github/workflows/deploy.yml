@@ -47,9 +47,10 @@ jobs:
           fi
 
       - name: Build
-        run: npm run build -- --base=${{ steps.set_base_url.outputs.base_path }}
+        run: npm run build
         env:
           GITHUB_PAGES: true
+          VITE_BASE_PATH: ${{ steps.set_base_url.outputs.base_path }}
 
       - name: Copy locales to dist
         run: cp -r locales dist/
