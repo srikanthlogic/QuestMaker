@@ -30,7 +30,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     useEffect(() => {
         const loadTranslations = async (lang: LanguageCode) => {
             try {
-                const response = await fetch(`/locales/${lang}.json`);
+                const response = await fetch(`${import.meta.env.BASE_URL}locales/${lang}.json`);
                 if (!response.ok) {
                     throw new Error(`Failed to load translations for ${lang}`);
                 }

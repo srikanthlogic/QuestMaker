@@ -5,10 +5,7 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     // GitHub Pages requires a base path when deploying to a subdirectory
     // Set GITHUB_PAGES=true when building for GitHub Pages
-    const isGitHubPages = process.env.GITHUB_PAGES === 'true';
-    // Replace 'questcraft' with your actual repository name
-    const basePath = isGitHubPages ? '/QuestMaker/' : '/';
-    
+    const basePath = process.env.VITE_BASE_PATH || '/';
     return {
       base: basePath,
       define: {
